@@ -8,7 +8,9 @@ namespace compiled.vs.standard.queries.Context;
 /// </summary>
 public class MainDbContext : DbContext
 {
-    #region Ctor
+    #region Props & Ctor
+
+    private const string connectionString = "Server=(localdb)\\mssqllocaldb;Database=EFCore;Trusted_Connection=True;";
 
     public MainDbContext(DbContextOptions<MainDbContext> options)
                 : base(options)
@@ -43,6 +45,15 @@ public class MainDbContext : DbContext
     /// </summary>
     /// <value></value>
     public DbSet<Story> Stories { get; set; }
+
+    #endregion
+
+    #region OnConfiguring
+
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    {
+        optionsBuilder.UseNpgsql(connectionString);
+    }
 
     #endregion
 }
